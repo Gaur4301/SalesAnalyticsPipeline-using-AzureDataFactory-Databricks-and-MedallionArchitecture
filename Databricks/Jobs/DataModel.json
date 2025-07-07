@@ -1,0 +1,135 @@
+{
+  "name": "Data_Model",
+  "email_notifications": {
+    "no_alert_for_skipped_runs": false
+  },
+  "webhook_notifications": {},
+  "timeout_seconds": 0,
+  "max_concurrent_runs": 1,
+  "tasks": [
+    {
+      "task_key": "silver_notebook",
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/joshigaurav4301@gmail.com/Silver-Notebook",
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0624-172449-hc3xp36k",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "Dim_Branch",
+      "depends_on": [
+        {
+          "task_key": "silver_notebook"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/joshigaurav4301@gmail.com/Gold_Dim_Branch",
+        "base_parameters": {
+          "incremental_flag": "1"
+        },
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0624-172449-hc3xp36k",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "Dim_Date",
+      "depends_on": [
+        {
+          "task_key": "silver_notebook"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/joshigaurav4301@gmail.com/Gold_Dim_Date",
+        "base_parameters": {
+          "incremental_flag": "1"
+        },
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0624-172449-hc3xp36k",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "Dim_Dealer",
+      "depends_on": [
+        {
+          "task_key": "silver_notebook"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/joshigaurav4301@gmail.com/Gold_Dim_Dealer",
+        "base_parameters": {
+          "incremental_flag": "1"
+        },
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0624-172449-hc3xp36k",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "Dim_Model",
+      "depends_on": [
+        {
+          "task_key": "silver_notebook"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/joshigaurav4301@gmail.com/Gold_Dim_Model",
+        "base_parameters": {
+          "incremental_flag": "1"
+        },
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0624-172449-hc3xp36k",
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {}
+    },
+    {
+      "task_key": "Fact_Sales",
+      "depends_on": [
+        {
+          "task_key": "Dim_Model"
+        },
+        {
+          "task_key": "Dim_Branch"
+        },
+        {
+          "task_key": "Dim_Date"
+        },
+        {
+          "task_key": "Dim_Dealer"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/joshigaurav4301@gmail.com/gold_fact_sales",
+        "source": "WORKSPACE"
+      },
+      "existing_cluster_id": "0624-172449-hc3xp36k",
+      "timeout_seconds": 0,
+      "email_notifications": {}
+    }
+  ],
+  "queue": {
+    "enabled": true
+  },
+  "performance_target": "STANDARD",
+  "run_as": {
+    "user_name": "joshigaurav4301@gmail.com"
+  }
+}
