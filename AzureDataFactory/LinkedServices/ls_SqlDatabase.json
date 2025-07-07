@@ -1,0 +1,24 @@
+{
+  "name": "ls_SqlDatabase",
+  "type": "Microsoft.DataFactory/factories/linkedservices",
+  "properties": {
+    "annotations": [],
+    "type": "AzureSqlDatabase",
+    "typeProperties": {
+      "server": "car-sales-server-new.database.windows.net",
+      "database": "carsales",
+      "encrypt": "mandatory",
+      "trustServerCertificate": false,
+      "authenticationType": "SQL",
+      "userName": "admingaurav",
+      "password": {
+        "type": "AzureKeyVaultSecret",
+        "store": {
+          "referenceName": "ls_AzureKeyVault",
+          "type": "LinkedServiceReference"
+        },
+        "secretName": "pass-key"
+      }
+    }
+  }
+}
